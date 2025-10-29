@@ -23,6 +23,9 @@ st.title("태양계 행성과 위성 간 거리 시각화")
 st.write("각 행성과 주요 위성 간의 평균 거리(km)를 한눈에 볼 수 있습니다.")
 
 # Plotly Express 막대그래프
+
+import plotly.express as px
+
 fig = plt.bar(
     df,
     x="거리(km)",
@@ -30,7 +33,7 @@ fig = plt.bar(
     color="행성",
     orientation="h",
     title="태양계 행성과 위성 간 거리 (km)",
-    color_discrete_sequence=plt.colors.qualitative.Pastel
+    color_discrete_sequence=px.colors.qualitative.Pastel
 )
 
 # 텍스트 표시
