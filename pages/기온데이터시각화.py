@@ -1,6 +1,6 @@
 import streamlit as st
+import matplotlib.pyplot as plt
 import pandas as pd
-import plotly.express as px
 
 # 데이터
 data = {
