@@ -24,8 +24,6 @@ st.write("각 행성과 주요 위성 간의 평균 거리(km)를 한눈에 볼 
 
 # 그래프 그리기
 plt.figure(figsize=(10, 6))
-plt.bar("행성", "위성")
-plt.show
 
 ax.set_xlabel("거리 (km)")
 ax.set_ylabel("위성 이름")
