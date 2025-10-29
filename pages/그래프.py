@@ -1,5 +1,6 @@
 import streamlit as st
 import matplotlib.pyplot as plt
+import koreanize_matplotlib
 import pandas as pd
 
 # 데이터
@@ -20,10 +21,8 @@ st.title("태양계 행성과 위성 간 거리 시각화")
 st.write("각 행성과 위성 간의 거리(km)를 한눈에 볼 수 있습니다.")
 
 # 그래프 그리기
-plt.figure(figsize=(14, 6))
+plt.figure(figsize=(20, 10))
 plt.bar(df["행성 - 위성"], df["거리(km)"], color='skyblue')
-
-
 plt.xlabel("행성 - 위성")
 plt.ylabel("거리 (km)")
 plt.title("태양계 위성 거리")
