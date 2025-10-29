@@ -1,7 +1,8 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px  # 필수!
+import plotly.express as px
 
+# 데이터
 data = {
     "행성": ["지구", "화성", "화성", "목성", "목성", "목성", "목성",
            "토성", "토성", "토성", "천왕성", "천왕성", "천왕성",
@@ -16,10 +17,12 @@ data = {
 
 df = pd.DataFrame(data)
 
+# Streamlit 페이지 설정
 st.set_page_config(page_title="태양계 위성 거리 시각화", layout="centered")
 st.title("태양계 행성과 위성 간 거리 시각화")
 st.write("각 행성과 주요 위성 간의 평균 거리(km)를 한눈에 볼 수 있습니다.")
 
+# Plotly Express 막대그래프
 fig = px.bar(
     df,
     x="거리(km)",
@@ -30,11 +33,13 @@ fig = px.bar(
     color_discrete_sequence=px.colors.qualitative.Pastel
 )
 
+# 텍스트 표시
 fig.update_traces(
-    text=df["거리(km)"].map(lambda x: f"{x:,} km"),
+    text=df["거리(km)"].apply(lambda x: f"{x:,} km"),
     textposition='outside'
 )
 
+# 레이아웃 설정
 fig.update_layout(
     xaxis_title="거리 (km)",
     yaxis_title="위성 이름",
@@ -44,7 +49,9 @@ fig.update_layout(
     showlegend=True
 )
 
+# Streamlit에 그래프 표시
 st.plotly_chart(fig, use_container_width=True)
 
+# 데이터 테이블
 st.subheader("데이터 테이블")
 st.dataframe(df)
