@@ -25,10 +25,7 @@ st.write("각 행성과 주요 위성 간의 평균 거리(km)를 한눈에 볼 
 # 그래프 그리기
 fig, ax = plt.subplots(figsize=(10, 6))
 
-for idx, row in df.iterrows():
-    ax.barh(row['위성'], row['거리(km)'], color=planet_colors[row['행성']])
-    ax.text(row['거리(km)'] + 50000, idx, f"{row['거리(km)']:,} km", va='center')
-
+ax.barh(df["위성"], df["거리(km)"], color=[색상[행성] for 행성 in df["행성"]])
 
 ax.set_xlabel("거리 (km)")
 ax.set_ylabel("위성 이름")
