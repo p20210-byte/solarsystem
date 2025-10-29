@@ -20,11 +20,18 @@ df = pd.DataFrame(data)
 # Streamlit 페이지 설정
 st.set_page_config(page_title="태양계 위성 거리 시각화", layout="centered")
 st.title("태양계 행성과 위성 간 거리 시각화")
-st.write("각 행성과 주요 위성 간의 평균 거리(km)를 한눈에 볼 수 있습니다.")
+st.write("각 행성과 위성 간의 거리(km)를 한눈에 볼 수 있습니다.")
 
 # 그래프 그리기
-plt.figure(figsize=(12, 6))
+plt.figure(figsize=(14, 6))
 plt.bar(df["위성"], df["거리(km)"], color='skyblue')
+
+for bar, name in zip(bars, df["위성"]):
+    height = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2, height + max(df["거리(km)"])*0.01, name,
+             ha='center', va='bottom', fontsize=9, rotation=45)
+
+
 plt.xlabel("위성")
 plt.ylabel("거리 (km)")
 plt.title("태양계 위성 거리")
