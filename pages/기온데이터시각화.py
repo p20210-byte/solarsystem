@@ -26,11 +26,6 @@ st.write("각 행성과 위성 간의 거리(km)를 한눈에 볼 수 있습니�
 plt.figure(figsize=(14, 6))
 plt.bar(df["위성"], df["거리(km)"], color='skyblue')
 
-for bar, name in zip(bars, df["위성"]):
-    height = bar.get_height()
-    plt.text(bar.get_x() + bar.get_width()/2, height + max(df["거리(km)"])*0.01, name,
-             ha='center', va='bottom', fontsize=9, rotation=45)
-
 
 plt.xlabel("위성")
 plt.ylabel("거리 (km)")
