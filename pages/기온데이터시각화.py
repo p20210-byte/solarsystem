@@ -11,34 +11,45 @@ data = {
            "트리톤", "네레이드", "나이아드"],
     "거리(km)": [384000, 6000, 23460, 420000, 670900, 1070400, 1880000,
               1220000, 2380000, 185539, 1900000, 43600, 129900,
-              350000, 5513400, 64000]}
-df = pd.DataFrame(data)    
+              350000, 5513400, 64000]
+}
 
-# Clean and prepare data
-st.title("태양계 행성과 위성 거리 시각화")
+df = pd.DataFrame(data)
 
-st.write("아래 그래프는 태양계 각 행성과 주요 위성 간의 평균 거리(km)를 보여줍니다.")
+st.set_page_config(page_title="태양계 위성 거리 시각화", layout="centered")
 
-# 행성 선택 옵션
-selected_planet = st.selectbox("행성을 선택하세요:", ["전체"] + sorted(df["행성"].unique().tolist()))
+st.title("🌞 태양계 행성과 위성 사이의 거리 시각화")
+st.write("각 행성과 주요 위성 간의 평균 거리(km)를 시각적으로 확인할 수 있습니다.")
+
+planets = ["전체"] + sorted(df["행성"].unique().tolist())
+selected_planet = st.selectbox("행성을 선택하세요:", planets)
 
 if selected_planet != "전체":
     filtered_df = df[df["행성"] == selected_planet]
 else:
     filtered_df = df
-    
-# Calculate yearly statistics
-plt.figure(figsize=(10, 6))
-plt.barh(filtered_df["위성"], filtered_df["거리(km)"], color="skyblue")
-plt.xlabel("거리 (km)")
-plt.ylabel("위성")
-plt.title(f"{selected_planet if selected_planet != '전체' else '모든 행성'}의 위성 거리")
 
-for i, val in enumerate(filtered_df["거리(km)"]):
-    plt.text(val + 50000, i, f"{val:,} km", va='center', fontsize=9)
+fig = px.bar(
+    filtered_df,
+    x="거리(km)",
+    y="위성",
+    color="행성",
+    orientation="h",
+    title=f"{selected_planet if selected_planet != '전체' else '전체 행성'}의 위성 거리 (km)",
+    color_discrete_sequence=px.colors.qualitative.Pastel
+)
 
-plt.gca().invert_yaxis()  # 위에서부터 보기 좋게 정렬
-st.pyplot(plt)
+fig.update_traces(text=filtered_df["거리(km)"].map(lambda x: f"{x:,} km"), textposition='outside')
+
+fig.update_layout(
+    xaxis_title="행성과 위성 사이의 거리 (km)",
+    yaxis_title="위성 이름",
+    yaxis=dict(autorange="reversed"),  # 위에서부터 정렬
+    title_font_size=20,
+    showlegend=(selected_planet == "전체")
+)
+
+st.plotly_chart(fig, use_container_width=True)
 
 st.subheader("📊 데이터 테이블")
 st.dataframe(filtered_df)
