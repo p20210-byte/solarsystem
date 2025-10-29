@@ -29,7 +29,7 @@ plt.show
 
 
 # Streamlit에 그래프 표시
-st.pyplot(figure)
+st.pyplot(plt)
 
 # 데이터 테이블
 st.subheader("데이터 테이블")
