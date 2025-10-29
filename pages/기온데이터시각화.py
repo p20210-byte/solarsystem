@@ -18,14 +18,14 @@ df = pd.DataFrame(data)
 
 st.set_page_config(page_title="태양계 행성 위성 거리 시각화", layout="centered")
 
-st.title("🌞 태양계 행성과 위성 간 거리 시각화")
+st.title("태양계 행성과 위성 간 거리 시각화")
 st.write("각 행성과 위성 간의 평균 거리(km)를 시각화합니다.")
 
-# 행성 선택 옵션
+
 planets = ["전체"] + sorted(df["행성"].unique().tolist())
 selected_planet = st.selectbox("행성을 선택하세요:", planets)
 
-# 행성 필터링
+
 if selected_planet != "전체":
     filtered_df = df[df["행성"] == selected_planet]
 else:
