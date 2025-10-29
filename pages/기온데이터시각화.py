@@ -24,12 +24,8 @@ st.write("각 행성과 주요 위성 간의 평균 거리(km)를 한눈에 볼 
 
 # 그래프 그리기
 plt.figure(figsize=(10, 6))
-
-ax.set_xlabel("거리 (km)")
-ax.set_ylabel("위성 이름")
-ax.set_title("태양계 행성과 위성 간 거리 (km)")
-ax.invert_yaxis()  # 위성 순서를 위에서 아래로
-plt.tight_layout()
+plt.bar("행성", "위성")
+plt.show
 
 
 # Streamlit에 그래프 표시
