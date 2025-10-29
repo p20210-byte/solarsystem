@@ -23,9 +23,9 @@ st.title("태양계 행성과 위성 간 거리 시각화")
 st.write("각 행성과 주요 위성 간의 평균 거리(km)를 한눈에 볼 수 있습니다.")
 
 # 그래프 그리기
-fig, ax = plt.subplots(figsize=(10, 6))
-
-ax.barh(df["위성"], df["거리(km)"], color=[색상[행성] for 행성 in df["행성"]])
+plt.figure(figsize=(10, 6))
+plt.bar("행성", "위성")
+plt.show
 
 ax.set_xlabel("거리 (km)")
 ax.set_ylabel("위성 이름")
