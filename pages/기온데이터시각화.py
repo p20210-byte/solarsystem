@@ -22,38 +22,23 @@ st.set_page_config(page_title="태양계 위성 거리 시각화", layout="cente
 st.title("태양계 행성과 위성 간 거리 시각화")
 st.write("각 행성과 주요 위성 간의 평균 거리(km)를 한눈에 볼 수 있습니다.")
 
-# Plotly Express 막대그래프
+# 그래프 그리기
+fig, ax = plt.subplots(figsize=(10, 6))
 
-import plotly.express as px
+for idx, row in df.iterrows():
+    ax.barh(row['위성'], row['거리(km)'], color=planet_colors[row['행성']])
+    ax.text(row['거리(km)'] + 50000, idx, f"{row['거리(km)']:,} km", va='center')
 
-fig = plt.bar(
-    df,
-    x="거리(km)",
-    y="위성",
-    color="행성",
-    orientation="h",
-    title="태양계 행성과 위성 간 거리 (km)",
-    color_discrete_sequence=px.colors.qualitative.Pastel
-)
 
-# 텍스트 표시
-fig.update_traces(
-    text=df["거리(km)"].apply(lambda x: f"{x:,} km"),
-    textposition='outside'
-)
+ax.set_xlabel("거리 (km)")
+ax.set_ylabel("위성 이름")
+ax.set_title("태양계 행성과 위성 간 거리 (km)")
+ax.invert_yaxis()  # 위성 순서를 위에서 아래로
+plt.tight_layout()
 
-# 레이아웃 설정
-fig.update_layout(
-    xaxis_title="거리 (km)",
-    yaxis_title="위성 이름",
-    yaxis=dict(autorange="reversed"),
-    title_font=dict(size=20, color='black'),
-    plot_bgcolor='rgba(0,0,0,0)',
-    showlegend=True
-)
 
 # Streamlit에 그래프 표시
-st.plt_chart(fig, use_container_width=True)
+st.pyplot(fig)
 
 # 데이터 테이블
 st.subheader("데이터 테이블")
