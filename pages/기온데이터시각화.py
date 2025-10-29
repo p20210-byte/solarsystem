@@ -30,7 +30,7 @@ fig = plt.bar(
     color="행성",
     orientation="h",
     title="태양계 행성과 위성 간 거리 (km)",
-    color_discrete_sequence=px.colors.qualitative.Pastel
+    color_discrete_sequence=plt.colors.qualitative.Pastel
 )
 
 # 텍스트 표시
@@ -50,7 +50,7 @@ fig.update_layout(
 )
 
 # Streamlit에 그래프 표시
-st.plotly_chart(fig, use_container_width=True)
+st.plt_chart(fig, use_container_width=True)
 
 # 데이터 테이블
 st.subheader("데이터 테이블")
