@@ -1,3 +1,4 @@
+pip install koreanize_matplotlib
 import streamlit as st
 import matplotlib.pyplot as plt
 import koreanize_matplotlib
