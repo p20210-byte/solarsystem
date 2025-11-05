@@ -20,10 +20,10 @@ st.write("각 행성과 위성 간의 거리(km)를 한눈에 볼 수 있습니�
 
 # 그래프 그리기
 plt.figure(figsize=(20, 10))
-plt.bar(df["행성 - 위성"], df["거리(km)"], color='skyblue')
+plt.bar(df["satellite distance"], df["distance(km)"], color='skyblue')
 plt.xlabel("행성 - 위성")
-plt.ylabel("거리 (km)")
-plt.title("태양계 위성 거리")
+plt.ylabel("distnace(km)")
+plt.title("satellite distance")
 plt.xticks(rotation=45)
 
 
