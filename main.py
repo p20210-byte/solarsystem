@@ -111,7 +111,7 @@ satelliteN_data = {
                  '불규칙한 모양을 가지고 있으며 해왕성 중심에서 약 48,000km 떨어진 궤도에서 공전한다.')
 }
 
-planet_choice = st.selectbox('행성을 선택해주세요', list(planets_data.keys()))
+planet_choice = st.selectbox('행성을 선택해주세요', list(planets.keys()))
 
 if planet_choice == '지구':
     satellite_choice = st.selectbox('위성을 선택해주세요', planets['지구']['대표적인_위성'])
