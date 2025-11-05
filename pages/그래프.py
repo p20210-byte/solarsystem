@@ -1,7 +1,7 @@
 import streamlit as st
 import matplotlib.pyplot as plt
 import pandas as pd
-import koreanize_matplotlib
+import koreanize_matplotlib as kpt
 # 데이터
 data = {
     "행성 - 위성": ["지구-달", "화성-포보스", "화성-데이모스", "목성-이오", "목성-유로파", "목성-갈리메데", "목성-칼리스토",
