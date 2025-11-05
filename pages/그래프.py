@@ -6,7 +6,7 @@ data = {
     "행성 - 위성": ["Earth-Moon", "Mars-Phobos", "Mars-Deimos", "Jupiter-Io", "Jupiter-Europa", "Jupiter-Ganymede", "Jupiter-Callisto",
            "Saturn-Titan", "Saturn-Enceladus", "Saturn-Mimas", "Uranus-Ariel", "Uranus-Titania", "Uranus-Miranda",
            "neptune-Triton", "neptune-Nereid", "neptune-Naiad"],
-    "거리(km)": [384000, 6000, 23460, 420000, 670900, 1070400, 1880000,
+    "Distnace(km)": [384000, 6000, 23460, 420000, 670900, 1070400, 1880000,
               1220000, 2380000, 185539, 1900000, 43600, 129900,
               350000, 5513400, 64000]
 }
@@ -20,7 +20,7 @@ st.write("각 행성과 위성 간의 거리(km)를 한눈에 볼 수 있습니�
 
 # 그래프 그리기
 plt.figure(figsize=(20, 10))
-plt.bar(df["행성 - 위성"], df["거리(km)"], color='skyblue')
+plt.bar(df["행성 - 위성"], df["Distance(km)"], color='skyblue')
 plt.xlabel("행성 - 위성")
 plt.ylabel("거리(km)")
 plt.title("satellite distance")
