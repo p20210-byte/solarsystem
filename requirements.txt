@@ -1,3 +1,3 @@
 pandas
 matplotlib
-koreanize_matplotlib
+import koreanize_matplotlib
