@@ -4,9 +4,9 @@ import pandas as pd
 import koreanize_matplotlib as kpt
 # 데이터
 data = {
-    "행성 - 위성": ["지구-달", "화성-포보스", "화성-데이모스", "목성-이오", "목성-유로파", "목성-갈리메데", "목성-칼리스토",
-           "토성-타이탄", "토성-엔셀라두스", "토성-미마스", "천왕성-아리엘", "천왕성-티타니아", "천왕성-미란다",
-           "해왕성-트리톤", "해왕성-네레이드", "해왕성-나이아드"],
+    "행성 - 위성": ["Earth-Moon", "Mars-Phobos", "Mars-Deimos", "Jupiter-Io", "Jupiter-Europa", "Jupiter-Ganymede", "Jupiter-Callisto",
+           "Saturn-Titan", "Saturn-Enceladus", "Saturn-Mimas", "Uranus-Ariel", "Uranus-Titania", "Uranus-Miranda",
+           "neptune-Triton", "neptune-Nereid", "neptune-Naiad"],
     "거리(km)": [384000, 6000, 23460, 420000, 670900, 1070400, 1880000,
               1220000, 2380000, 185539, 1900000, 43600, 129900,
               350000, 5513400, 64000]
