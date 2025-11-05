@@ -114,26 +114,26 @@ satelliteN_data = {
 planet_choice = st.selectbox('행성을 선택해주세요', list(planet_data.keys()))
 
 if planet_choice == '지구':
-    satellite_choice = st.selectbox('위성을 선택해주세요', planets['지구']['대표적인_위성'])
+    satellite_choice = st.selectbox('위성을 선택해주세요', planet_data['지구']['대표적인_위성'])
     st.write(satelliteE_data[satellite_choice])
 
 elif planet_choice == '화성':
-    satellite_choice = st.selectbox('위성을 선택해주세요', planets['화성']['대표적인_위성'])
+    satellite_choice = st.selectbox('위성을 선택해주세요', planet_data['화성']['대표적인_위성'])
     st.write(satelliteM_data[satellite_choice])
 
 elif planet_choice == '목성':
-    satellite_choice = st.selectbox('위성을 선택해주세요', planets['목성']['대표적인_위성'])
+    satellite_choice = st.selectbox('위성을 선택해주세요', planet_data['목성']['대표적인_위성'])
     st.write(satelliteJ_data[satellite_choice])
 
 elif planet_choice == '토성':
-    satellite_choice = st.selectbox('위성을 선택해주세요', planets['토성']['대표적인_위성'])
+    satellite_choice = st.selectbox('위성을 선택해주세요', planet_data['토성']['대표적인_위성'])
     st.write(satelliteS_data[satellite_choice])
 
 elif planet_choice == '천왕성':
-    satellite_choice = st.selectbox('위성을 선택해주세요', planets['천왕성']['대표적인_위성'])
+    satellite_choice = st.selectbox('위성을 선택해주세요', planet_data['천왕성']['대표적인_위성'])
     st.write(satelliteU_data[satellite_choice])
 
 elif planet_choice == '해왕성':
-    satellite_choice = st.selectbox('위성을 선택해주세요', planets['해왕성']['대표적인_위성'])
+    satellite_choice = st.selectbox('위성을 선택해주세요', planet_data['해왕성']['대표적인_위성'])
     st.write(satelliteN_data[satellite_choice])
 
