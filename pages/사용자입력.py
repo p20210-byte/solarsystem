@@ -1,66 +1,152 @@
-# 01_사용자입력.py
-# 다양한 Streamlit 입력 요소를 실습하는 페이지입니다.
+import random
+import copy
+import sys
+sys.setrecursionlimit(10000)
 
-import streamlit as st
+# ------------------------------------------------------------
+# 2026 팀 목록 + 포트 배정
+# (실제 48개국 가정 기반 — 필요 시 원하는 팀으로 교체 가능)
+# ------------------------------------------------------------
 
-# 페이지 설정
-st.set_page_config(
-    page_title="사용자 입력 실습",
-    page_icon="📝",
-    layout="centered"
-)
+pot1 = [
+    "USA", "Mexico", "Canada",
+    "Argentina", "Brazil", "France",
+    "England", "Portugal", "Spain",
+    "Germany", "Belgium", "Croatia"
+]
 
-st.title("사용자 입력 실습")
-st.markdown("아래 입력 칸들을 채워보세요. 입력한 값은 실시간으로 바로 아래에 표시됩니다.")
+pot2 = [
+    "Korea Republic", "Netherlands", "Japan",
+    "Switzerland", "Denmark", "Uruguay",
+    "Colombia", "Morocco", "Austria",
+    "Serbia", "Ukraine", "Senegal"
+]
 
-# 1. 텍스트 입력
-name = st.text_input("이름을 입력하세요")
+pot3 = [
+    "Chile", "Nigeria", "Australia",
+    "Ecuador", "Sweden", "Poland",
+    "Cameroon", "Turkey", "Qatar",
+    "Czech Republic", "Algeria", "Iran"
+]
 
-# 2. 숫자 입력
-age = st.number_input("나이를 입력하세요", min_value=0, max_value=120, step=1)
+pot4 = [
+    "South Africa", "New Zealand", "Honduras",
+    "Panama", "Saudi Arabia", "Egypt",
+    "Tunisia", "Costa Rica", "Paraguay",
+    "Peru", "UAE", "Ghana"
+]
 
-# 3. 라디오 버튼
-favorite_color = st.radio("좋아하는 색을 선택하세요", ["빨강", "파랑", "노랑"], horizontal=True)
+pots = [pot1, pot2, pot3, pot4]
 
-# 4. 셀렉트 박스
-hobby = st.selectbox("취미를 선택하세요", ["독서", "운동", "음악", "게임", "기타"])
+# ------------------------------------------------------------
+# 대륙 정보
+# ------------------------------------------------------------
+continent = {
+    # Pot 1
+    "USA":"CONCACAF","Mexico":"CONCACAF","Canada":"CONCACAF",
+    "Argentina":"CONMEBOL","Brazil":"CONMEBOL","France":"UEFA",
+    "England":"UEFA","Portugal":"UEFA","Spain":"UEFA",
+    "Germany":"UEFA","Belgium":"UEFA","Croatia":"UEFA",
 
-# 5. 체크박스
-agree = st.checkbox("위의 내용을 모두 확인하였습니다.")
+    # Pot 2
+    "Korea Republic":"AFC","Netherlands":"UEFA","Japan":"AFC",
+    "Switzerland":"UEFA","Denmark":"UEFA","Uruguay":"CONMEBOL",
+    "Colombia":"CONMEBOL","Morocco":"CAF","Austria":"UEFA",
+    "Serbia":"UEFA","Ukraine":"UEFA","Senegal":"CAF",
 
-# 6. 텍스트 파일 업로드
-uploaded_text = st.file_uploader("텍스트 파일을 업로드하세요", type=["txt"])
-text_content = None
-if uploaded_text:
-    text_content = uploaded_text.read().decode("utf-8")
+    # Pot 3
+    "Chile":"CONMEBOL","Nigeria":"CAF","Australia":"AFC",
+    "Ecuador":"CONMEBOL","Sweden":"UEFA","Poland":"UEFA",
+    "Cameroon":"CAF","Turkey":"UEFA","Qatar":"AFC",
+    "Czech Republic":"UEFA","Algeria":"CAF","Iran":"AFC",
 
-# 7. 이미지 업로드
-uploaded_image = st.file_uploader("이미지 파일을 업로드하세요", type=["png", "jpg", "jpeg"])
+    # Pot 4
+    "South Africa":"CAF","New Zealand":"OFC","Honduras":"CONCACAF",
+    "Panama":"CONCACAF","Saudi Arabia":"AFC","Egypt":"CAF",
+    "Tunisia":"CAF","Costa Rica":"CONCACAF","Paraguay":"CONMEBOL",
+    "Peru":"CONMEBOL","UAE":"AFC","Ghana":"CAF"
+}
 
-# 8. 카메라 입력
-camera_image = st.camera_input("카메라로 사진을 찍어보세요")
+groups = list("ABCDEFGHIJKL")  # 12 groups
 
-# --- 출력부 ---
-st.markdown("---")
-st.subheader("입력 결과 확인")
 
-if name:
-    st.write(f"🙋 이름: {name}")
-if age:
-    st.write(f"🎂 나이: {int(age)}")
-if favorite_color:
-    st.write(f"🎨 좋아하는 색: {favorite_color}")
-if hobby:
-    st.write(f"🎯 취미: {hobby}")
-if agree:
-    st.write(f"✅ 동의 여부: {'동의함' if agree else '동의하지 않음'}")
+# ------------------------------------------------------------
+# 대륙 제약 검사
+# ------------------------------------------------------------
+def is_valid(group_team_list, team):
+    team_cont = continent[team]
 
-if text_content:
-    st.markdown("📄 업로드한 텍스트 파일 내용:")
-    st.text(text_content)
+    # 1) 조가 이미 4팀이면 불가
+    if len(group_team_list) >= 4:
+        return False
 
-if uploaded_image:
-    st.image(uploaded_image, caption="업로드한 이미지", use_column_width=True)
+    # 2) UEFA는 조당 2명까지 허용
+    if team_cont == "UEFA":
+        uefa_count = sum(continent[t] == "UEFA" for t in group_team_list)
+        if uefa_count >= 2:
+            return False
 
-if camera_image:
-    st.image(camera_image, caption="카메라로 촬영한 이미지", use_column_width=True)
+    # 3) 기타 대륙은 조당 1명만 허용 (UEFA 제외)
+    if team_cont != "UEFA":
+        for t in group_team_list:
+            if continent[t] == team_cont:
+                return False
+
+    return True
+
+
+# ------------------------------------------------------------
+# 백트래킹 기반 조추첨
+# ------------------------------------------------------------
+def assign_from_pot(pot_idx, pots, result, team_idx=0):
+    if pot_idx == len(pots):
+        return True  # 완료
+
+    pot = pots[pot_idx]
+
+    if team_idx == len(pot):
+        # 다음 포트로 이동
+        return assign_from_pot(pot_idx + 1, pots, result, 0)
+
+    team = pot[team_idx]
+    random.shuffle(groups)  # 무작위 그룹 순서
+
+    for g in groups:
+        if is_valid(result[g], team):
+            result[g].append(team)
+
+            if assign_from_pot(pot_idx, pots, result, team_idx + 1):
+                return True
+
+            # 실패 → 백트래킹
+            result[g].remove(team)
+
+    return False
+
+
+# ------------------------------------------------------------
+# 전체 조추첨 함수
+# ------------------------------------------------------------
+def draw_worldcup():
+    while True:
+        result = {g: [] for g in groups}
+        if assign_from_pot(0, pots, result, 0):
+            return result
+        # 실패시는 자동으로 다시 시도
+
+
+# ------------------------------------------------------------
+# 실행 및 출력
+# ------------------------------------------------------------
+def print_groups(result):
+    print("\n===== 2026 월드컵 조추첨 결과 =====\n")
+    for g in groups:
+        print(f"Group {g}:")
+        for t in result[g]:
+            print(f"  - {t} ({continent[t]})")
+        print()
+
+
+if __name__ == "__main__":
+    result = draw_worldcup()
+    print_groups(result)
